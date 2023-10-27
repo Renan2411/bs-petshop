@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.bd"
+}
+
+model Regras {
+  id            Int             @id @default(autoincrement())
+  nome          String
+  Regra_Usuario Regra_Usuario[]
+}
+
+model Usuarios {
+  id               Int                @id @default(autoincrement())
+  nome             String
+  telefone         String
+  email            String
+  endereco         String
+  Regra_Usuario    Regra_Usuario[]
+  Intencao_Adocoes Intencao_Adocoes[]
+}
+
+model Regra_Usuario {
+  id        Int      @id @default(autoincrement())
+  usuario   Usuarios @relation(fields: [idUsuario], references: [id])
+  idUsuario Int
+  regra     Regras   @relation(fields: [idRegra], references: [id])
+  idRegra   Int
+}
+
+model Unidades_Adocao {
+  id        Int     @id @default(autoincrement())
+  nome      String
+  cep       String
+  telefone  String
+  email     String?
+  descricao String?
+  Pet       Pet[]
+}
+
+model Pet {
+  id               Int                @id @default(autoincrement())
+  nome             String
+  idade            Int
+  biografia        String?
+  unidadeAdocao    Unidades_Adocao?   @relation(fields: [idUnidadeAdocao], references: [id])
+  idUnidadeAdocao  Int?
+  Intencao_Adocoes Intencao_Adocoes[]
+}
+
+model Intencao_Adocoes {
+  id        Int      @id @default(autoincrement())
+  usuario   Usuarios @relation(fields: [idUsuario], references: [id])
+  idUsuario Int
+  pet       Pet      @relation(fields: [idPet], references: [id])
+  idPet     Int
+}
