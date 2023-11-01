@@ -11,19 +11,20 @@ datasource db {
 }
 
 model Regras {
-  id            Int             @id @default(autoincrement())
-  nome          String
-  Regra_Usuario Regra_Usuario[]
+  id           Int             @id @default(autoincrement())
+  nome         String          @unique
+  regraUsuario Regra_Usuario[]
 }
 
 model Usuarios {
-  id               Int                @id @default(autoincrement())
-  nome             String
-  telefone         String
-  email            String
-  endereco         String
-  Regra_Usuario    Regra_Usuario[]
-  Intencao_Adocoes Intencao_Adocoes[]
+  id              Int               @id @default(autoincrement())
+  nome            String
+  cpf             String            @unique
+  telefone        String
+  email           String            @unique
+  endereco        String
+  intencaoAdocoes IntencaoAdocoes[]
+  regraUsuario    Regra_Usuario[]
 }
 
 model Regra_Usuario {
@@ -34,30 +35,32 @@ model Regra_Usuario {
   idRegra   Int
 }
 
-model Unidades_Adocao {
+model UnidadesAdocao {
   id        Int     @id @default(autoincrement())
   nome      String
   cep       String
   telefone  String
-  email     String?
+  email     String? @unique
   descricao String?
   Pet       Pet[]
 }
 
 model Pet {
-  id               Int                @id @default(autoincrement())
-  nome             String
-  idade            Int
-  biografia        String?
-  unidadeAdocao    Unidades_Adocao?   @relation(fields: [idUnidadeAdocao], references: [id])
-  idUnidadeAdocao  Int?
-  Intencao_Adocoes Intencao_Adocoes[]
+  id              Int               @id @default(autoincrement())
+  nome            String
+  idade           Int
+  biografia       String?
+  adotado         Boolean
+  unidadeAdocao   UnidadesAdocao?   @relation(fields: [idUnidadeAdocao], references: [id])
+  idUnidadeAdocao Int?
+  intencaoAdocoes IntencaoAdocoes[]
 }
 
-model Intencao_Adocoes {
+model IntencaoAdocoes {
   id        Int      @id @default(autoincrement())
   usuario   Usuarios @relation(fields: [idUsuario], references: [id])
   idUsuario Int
   pet       Pet      @relation(fields: [idPet], references: [id])
   idPet     Int
+  status    String  @default("EM_ANALISE")
 }
