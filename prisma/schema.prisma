@@ -58,9 +58,9 @@ model Pet {
 
 model IntencaoAdocoes {
   id        Int      @id @default(autoincrement())
-  usuario   Usuarios @relation(fields: [idUsuario], references: [id])
   idUsuario Int
-  pet       Pet      @relation(fields: [idPet], references: [id])
+  usuario   Usuarios @relation(fields: [idUsuario], references: [id])
   idPet     Int
-  status    String  @default("EM_ANALISE")
+  pet       Pet      @relation(fields: [idPet], references: [id])
+  status    String   @default("EM_ANALISE")
 }

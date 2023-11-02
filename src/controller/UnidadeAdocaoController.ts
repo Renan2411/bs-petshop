@@ -4,11 +4,9 @@ const prisma = new PrismaClient()
 export const unidadeAdocaoController = {
     async listarTodos() {
         try {
-            const unidadesAdocao = await prisma.unidadeAdocao.findMany({
-                include: { unidadeAdocao: true }
-            })
+            const unidadesAdocao = await prisma.unidadesAdocao.findMany()
 
-            return { unidadesAdocao }
+            return unidadesAdocao
         } catch (error: any) {
             console.log(error)
         }

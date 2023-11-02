@@ -9,8 +9,9 @@ const PORT = 5050;
 
 app.use(express.json())
 
-require("./routes/pet")(app)
-require("./routes/unidadeAdocao")(app)
+require("./routes/PetsRoutes")(app)
+require("./routes/UnidadeAdocaoRoutes")(app)
+require("./routes/IntencaoAdocaoRoutes")(app)
 
 app.get('/', (req, res) => {
     res.send("Olá, mundo");
