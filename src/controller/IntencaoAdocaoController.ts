@@ -76,8 +76,6 @@ export const intencaoAdocaoController = {
 
     async aceitarIntencaoAdocao(idIntencao: Number) {
         try {
-
-
             let intencaoAdocao = await prisma.intencaoAdocoes.findUnique({
                 where: { id: idIntencao }
             })
@@ -120,7 +118,6 @@ export const intencaoAdocaoController = {
     },
 
     async recusarIntencaoAdocao(idPet: Number, idUsuario: Number, usuario: any) {
-
         try {
 
             const itencaoAdocao = prisma.intencaoAdocao.update({

@@ -1,4 +1,5 @@
 import { intencaoAdocaoController } from "../controller/IntencaoAdocaoController";
+import ValidationMiddlware from "../middleware/ValidationMiddlware";
 
 module.exports = (app: any) => {
 
@@ -21,7 +22,7 @@ module.exports = (app: any) => {
         return res.status(returnedResponse?.status).json(returnedResponse?.body)
     })
 
-    app.post('/itencoes-adocao/aceitar/:id', async (req: any,  res: any) => {
+    app.post('/itencoes-adocao/aceitar/:id', ValidationMiddlware, async (req: any,  res: any) => {
         const returnedResponse = await intencaoAdocaoController.aceitarIntencaoAdocao(Number(req.params.id))
 
         return res.status(returnedResponse?.status).json(returnedResponse?.body)

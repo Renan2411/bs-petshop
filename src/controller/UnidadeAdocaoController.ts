@@ -14,15 +14,6 @@ export const unidadeAdocaoController = {
 
     async criar(unidadeAdocao: any, usuario: any) {
         try {
-            if (!await this.validarSeUsuarioEhAdministrado(usuario.cpf)) {
-                return {
-                    status: 403,
-                    body: {
-                        message: 'O usuário não tem permissão necessária para completar a ação'
-                    }
-                }
-            }
-
             const unidadeAdocaoCadastrado = await prisma.unidadesAdocao.create({
                 data: {
                     ...unidadeAdocao,
@@ -43,15 +34,6 @@ export const unidadeAdocaoController = {
 
     async editar(idUnidadeAdocao: Number, unidadeAdocao: any, usuario: any) {
         try {
-            if (!await this.validarSeUsuarioEhAdministrado(usuario.cpf)) {
-                return {
-                    status: 403,
-                    body: {
-                        message: 'O usuário não tem permissão necessária para completar a ação'
-                    }
-                }
-            }
-
             const unidadeAdocaoEditada = await prisma.unidadesAdocao.update({
                 where: { id: idUnidadeAdocao },
                 data: {
@@ -78,15 +60,6 @@ export const unidadeAdocaoController = {
 
     async buscarPorId(idUnidadeAdocao: Number, usuario: any) {
         try {
-            if (!await this.validarSeUsuarioEhAdministrado(usuario.cpf)) {
-                return {
-                    status: 403,
-                    body: {
-                        message: 'O usuário não tem permissão necessária para completar a ação'
-                    }
-                }
-            }
-
             const unidadeAdocaoBuscada = await prisma.unidadesAdocao.findUnique({
                 where: { id: idUnidadeAdocao }
             })
@@ -102,21 +75,4 @@ export const unidadeAdocaoController = {
             console.log(error)
         }
     },
-
-    async validarSeUsuarioEhAdministrado(cpf: String) {
-        const user = await prisma.usuarios.findUnique({
-            where: { cpf },
-            include: { regraUsuario: true }
-        })
-
-        if (!user) {
-            return false
-        }
-
-        const regra = await prisma.regras.findUnique({
-            where: { id: user.regraUsuario[0].idRegra }
-        })
-
-        return regra.nome === 'administrador'
-    }
 }

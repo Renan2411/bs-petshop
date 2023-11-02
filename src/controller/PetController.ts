@@ -1,8 +1,6 @@
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
-import { Verifications } from "../utils/Verifications"
-
 export const petController = {
     async listarTodos() {
         try {
@@ -31,15 +29,6 @@ export const petController = {
 
     async criar(pet: any, usuario: any) {
         try {
-            if (!await Verifications.validarSeUsuarioEhAdministrador(usuario.cpf)) {
-                return {
-                    status: 403,
-                    body: {
-                        message: 'O usuário não tem permissão necessária para completar a ação'
-                    }
-                }
-            }
-
             const petCadastrado = await prisma.pet.create({
                 data: {
                     ...pet,
@@ -61,15 +50,6 @@ export const petController = {
 
     async editar(idPet: Number, pet: any, usuario: any) {
         try {
-            if (!await Verifications.validarSeUsuarioEhAdministrador(usuario.cpf)) {
-                return {
-                    status: 403,
-                    body: {
-                        message: 'O usuário não tem permissão necessária para completar a ação'
-                    }
-                }
-            }
-
             const petEditado = await prisma.pet.update({
                 where: { id: idPet },
                 data: {
@@ -96,15 +76,6 @@ export const petController = {
 
     async buscarPorId(idPet: Number, usuario: any) {
         try {
-            if (!await Verifications.validarSeUsuarioEhAdministrador(usuario.cpf)) {
-                return {
-                    status: 403,
-                    body: {
-                        message: 'O usuário não tem permissão necessária para completar a ação'
-                    }
-                }
-            }
-
             const petBuscado = await prisma.pet.findUnique({
                 where: { id: idPet }
             })

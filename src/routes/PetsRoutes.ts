@@ -1,4 +1,5 @@
 import { petController } from '../controller/PetController'
+import ValidationMiddlware from '../middleware/ValidationMiddlware'
 
 module.exports = (app: any) => {
     app.get('/pets', async (request: any, response: any) => {
@@ -19,13 +20,13 @@ module.exports = (app: any) => {
         return response.status(returnedResponse?.status).json(returnedResponse?.body)
     })
 
-    app.post('/pets', async (request: any, response: any) => {
+    app.post('/pets', ValidationMiddlware, async (request: any, response: any) => {
         const returnedResponse = await petController.criar(request.body.pet, request.body.usuario)
 
         return response.status(returnedResponse?.status).json(returnedResponse?.body)
     })
 
-    app.put('/pets/:id', async (request: any, response: any) => {
+    app.put('/pets/:id',ValidationMiddlware, async (request: any, response: any) => {
         const returnedResponse = await petController.editar(Number(request.params.id), request.body.pet, request.body.usuario)
 
         return response.status(returnedResponse?.status).json(returnedResponse?.body)
