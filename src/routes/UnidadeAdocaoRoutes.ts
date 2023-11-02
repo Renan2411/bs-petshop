@@ -9,13 +9,13 @@ module.exports = (app: any) => {
     })
 
     app.get('/unidades-adocao/:id', async (request: any, response: any) => {
-        const returnedResponse = await unidadeAdocaoController.buscarPorId(Number(request.params.id), request.body.usuario)
+        const returnedResponse = await unidadeAdocaoController.buscarPorId(Number(request.params.id))
 
         return response.status(returnedResponse?.status).json(returnedResponse?.body)
     })
 
     app.post('/unidades-adocao', ValidationMiddlware, async (request: any, response: any) => {
-        const returnedResponse = await unidadeAdocaoController.criar(request.body.unidadeAdocao, request.body.usuario)
+        const returnedResponse = await unidadeAdocaoController.criar(request.body.unidadeAdocao)
 
         return response.status(returnedResponse?.status).json(returnedResponse?.body)
     })

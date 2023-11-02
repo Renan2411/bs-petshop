@@ -21,13 +21,13 @@ module.exports = (app: any) => {
     })
 
     app.post('/pets', ValidationMiddlware, async (request: any, response: any) => {
-        const returnedResponse = await petController.criar(request.body.pet, request.body.usuario)
+        const returnedResponse = await petController.criar(request.body.pet)
 
         return response.status(returnedResponse?.status).json(returnedResponse?.body)
     })
 
     app.put('/pets/:id',ValidationMiddlware, async (request: any, response: any) => {
-        const returnedResponse = await petController.editar(Number(request.params.id), request.body.pet, request.body.usuario)
+        const returnedResponse = await petController.editar(Number(request.params.id), request.body.pet)
 
         return response.status(returnedResponse?.status).json(returnedResponse?.body)
     })

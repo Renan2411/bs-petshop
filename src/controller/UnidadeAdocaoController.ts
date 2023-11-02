@@ -1,3 +1,5 @@
+import { UnidadeAdocaoValidationRequest } from "../validation-request/UnidadeAdocaoValidationRequest"
+
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
@@ -12,8 +14,10 @@ export const unidadeAdocaoController = {
         }
     },
 
-    async criar(unidadeAdocao: any, usuario: any) {
+    async criar(unidadeAdocao: any) {
         try {
+            await UnidadeAdocaoValidationRequest.validate(unidadeAdocao)
+
             const unidadeAdocaoCadastrado = await prisma.unidadesAdocao.create({
                 data: {
                     ...unidadeAdocao,
@@ -34,6 +38,8 @@ export const unidadeAdocaoController = {
 
     async editar(idUnidadeAdocao: Number, unidadeAdocao: any, usuario: any) {
         try {
+            await UnidadeAdocaoValidationRequest.validate(unidadeAdocao)
+
             const unidadeAdocaoEditada = await prisma.unidadesAdocao.update({
                 where: { id: idUnidadeAdocao },
                 data: {
@@ -58,7 +64,7 @@ export const unidadeAdocaoController = {
         }
     },
 
-    async buscarPorId(idUnidadeAdocao: Number, usuario: any) {
+    async buscarPorId(idUnidadeAdocao: Number) {
         try {
             const unidadeAdocaoBuscada = await prisma.unidadesAdocao.findUnique({
                 where: { id: idUnidadeAdocao }

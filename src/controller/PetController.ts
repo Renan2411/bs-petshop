@@ -1,3 +1,5 @@
+import { PetValidationRequest } from "../validation-request/PetValidationRequest"
+
 const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
@@ -27,8 +29,9 @@ export const petController = {
         }
     },
 
-    async criar(pet: any, usuario: any) {
+    async criar(pet: any) {
         try {
+            await PetValidationRequest.validate(pet)
             const petCadastrado = await prisma.pet.create({
                 data: {
                     ...pet,
@@ -48,8 +51,9 @@ export const petController = {
         }
     },
 
-    async editar(idPet: Number, pet: any, usuario: any) {
+    async editar(idPet: Number, pet: any) {
         try {
+            await PetValidationRequest.validate(pet)
             const petEditado = await prisma.pet.update({
                 where: { id: idPet },
                 data: {
