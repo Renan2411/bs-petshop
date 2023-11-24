@@ -15,13 +15,15 @@ export default async (request: any, response: any, next: any) => {
         include: { regraUsuario: true }
     })
 
+    console.log(user)
+
     if (!user) {
         return response.status(400).json({
             message: "Usuário não encontrado!"
         })
     }
 
-    if (!user.idRegra) {
+    if (!user.regraUsuario[0].idRegra) {
         return response.status(400).json({
             message:  "Usuário não possui a permissão necessária para completar a ação!"
         })
